@@ -79,14 +79,12 @@ export default function Home() {
       <Head>
         <title>Lista de Produtos</title>
       </Head>
-
       <CreateForm fnCreateItem={createItem} loading={loading} />
       {loading && (
         <p style={{ padding: "0 1rem" }}>
           <em>Aguarde...</em>
         </p>
       )}
-
       {!loading && (
         <div
           style={{
@@ -100,10 +98,19 @@ export default function Home() {
           <p style={{ textAlign: "center" }}>
             Produtos no carrinho: {items?.length}
           </p>
-
-          <div style={{}}>
+          <div>
             <div>R$ {amount()}</div>
           </div>
+        </div>
+      )}
+
+      {!loading && items.length > 0 && (
+        <div style={{ padding: "0 16px" }}>
+          <button
+            onClick={() => setItems([])}
+            children="Limpar lista"
+            style={{ padding: "0 10px" }}
+          />
         </div>
       )}
 
@@ -260,9 +267,11 @@ export default function Home() {
               </div>
             );
           })}
-      </WrapperItems>
 
-      {!loading && items?.length < 1 && <p>Nenhum item...</p>}
+        {!loading && items?.length < 1 && (
+          <p style={{ padding: "16px" }}>Adicione produtos à sua lista.</p>
+        )}
+      </WrapperItems>
     </Container>
   );
 }
@@ -276,8 +285,8 @@ const Container = styled.div`
 const WrapperItems = styled.div`
   width: 100%;
   height: 80vh;
-  overflow-y: auto;
   margin-top: 8px;
+  overflow-y: auto;
 
   .product {
     display: flex;
