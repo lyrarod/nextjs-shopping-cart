@@ -157,7 +157,7 @@ export default function Home() {
                                 if (item.id === id && item.price > 0) {
                                   return {
                                     ...item,
-                                    price: +(item.price - 0.01).toFixed(2),
+                                    price: +(+item.price - 0.01).toFixed(2),
                                   };
                                 }
                                 return {
@@ -170,11 +170,12 @@ export default function Home() {
                         />
 
                         <input
-                          value={price}
+                          value={price ? price : ""}
                           onChange={(e) => handleOnChangePrice(e, id)}
                           type={"number"}
                           min="0"
                           max="999"
+                          placeholder="0,00"
                         />
 
                         <button
@@ -184,7 +185,7 @@ export default function Home() {
                                 if (item.id === id && item.price < 999) {
                                   return {
                                     ...item,
-                                    price: +(item.price + 0.01).toFixed(2),
+                                    price: +(+item.price + 0.01).toFixed(2),
                                   };
                                 }
                                 return {
