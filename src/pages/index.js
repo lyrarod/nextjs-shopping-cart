@@ -4,9 +4,9 @@ import { CreateForm } from "../components/CreateForm";
 import styled from "styled-components";
 
 const fakeItems = [
-  { id: 1, product: "1kg Arroz", qty: 1, price: 0 },
-  { id: 2, product: "1kg Feijão", qty: 1, price: 0 },
-  { id: 3, product: "Batata Pré Frita", qty: 1, price: 0 },
+  { id: 1, product: "10kg Arroz Parboilizado (maximo)", qty: 1, price: 0 },
+  { id: 2, product: "10kg Feijão Manteiga", qty: 1, price: 0 },
+  { id: 3, product: "4kg Batata Frita Congelada", qty: 1, price: 0 },
 ];
 
 export default function Home() {
@@ -77,40 +77,34 @@ export default function Home() {
   return (
     <Container>
       <Head>
-        <title>Lista de Produtos</title>
+        <title>Shopping Cart List</title>
       </Head>
-      <CreateForm fnCreateItem={createItem} loading={loading} />
+
       {loading && (
-        <p style={{ padding: "0 1rem" }}>
+        <h2 style={{ padding: "0 1rem" }}>
           <em>Aguarde...</em>
-        </p>
+        </h2>
       )}
+
       {!loading && (
         <div
           style={{
             width: "100%",
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
-            padding: "0 1rem",
+            flexDirection: "column",
+            padding: "16px",
+            background: "linear-gradient(to right,rebeccapurple,#339999 )",
+            boxShadow: "0 3px 3px #0003",
           }}
         >
-          <p style={{ textAlign: "center" }}>
-            Produtos no carrinho: {items?.length}
-          </p>
+          {/* <p>🛒 {items?.length}</p> */}
           <div>
-            <div>R$ {amount()}</div>
+            <h2 style={{ color: "#fff" }}>R$ {amount()}</h2>
           </div>
-        </div>
-      )}
 
-      {!loading && items.length > 0 && (
-        <div style={{ padding: "0 16px" }}>
-          <button
-            onClick={() => setItems([])}
-            children="Limpar lista"
-            style={{ padding: "0 10px" }}
-          />
+          <CreateForm fnCreateItem={createItem} loading={loading} />
         </div>
       )}
 
@@ -124,20 +118,60 @@ export default function Home() {
               <div key={id} className="product">
                 <div
                   style={{
-                    overflowX: "auto",
+                    position: "absolute",
+                    top: "6px",
+                    right: "10px",
                   }}
                 >
+                  <button
+                    onClick={() => {
+                      setItems([...items.filter((item) => item.id !== id)]);
+                    }}
+                    style={{
+                      padding: "0",
+                      border: "0",
+                      boxShadow: "none",
+                      color: "crimson",
+                      fontSize: "14px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    x
+                  </button>
+                </div>
+
+                <div
+                  style={{
+                    overflowX: "auto",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    letterSpacing: "1px",
+                    color: "rebeccapurple",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "rebeccapurple",
+                    }}
+                  >
+                    {i + 1}.{" "}
+                  </span>
                   {product}
                 </div>
                 <div
                   style={{
                     display: "flex",
+                    marginTop: "4px",
                   }}
                 >
                   <div
                     style={{
                       width: "50%",
-                      // background: "tomato",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
                     <div
@@ -145,76 +179,72 @@ export default function Home() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        flexDirection: "column",
                       }}
                     >
-                      <div>R$</div>
-                      <div>
-                        <button
-                          onClick={() => {
-                            setItems([
-                              ...items.map((item) => {
-                                if (item.id === id && item.price > 0) {
-                                  return {
-                                    ...item,
-                                    price: +(+item.price - 0.01).toFixed(2),
-                                  };
-                                }
+                      <button
+                        className="priceMinus"
+                        onClick={() => {
+                          setItems([
+                            ...items.map((item) => {
+                              if (item.id === id && item.price > 0) {
                                 return {
                                   ...item,
+                                  price: +(+item.price - 0.01).toFixed(2),
                                 };
-                              }),
-                            ]);
-                          }}
-                          children="-"
-                        />
+                              }
+                              return {
+                                ...item,
+                              };
+                            }),
+                          ]);
+                        }}
+                        children="-"
+                      />
 
-                        <input
-                          value={price ? price : ""}
-                          onChange={(e) => handleOnChangePrice(e, id)}
-                          type={"number"}
-                          min="0"
-                          max="999"
-                          placeholder="0,00"
-                        />
+                      <input
+                        value={price ? price : ""}
+                        onChange={(e) => handleOnChangePrice(e, id)}
+                        type={"number"}
+                        min="0"
+                        max="999"
+                        placeholder="R$0,00"
+                        style={{
+                          width: "70px",
+                        }}
+                      />
 
-                        <button
-                          onClick={() => {
-                            setItems([
-                              ...items.map((item) => {
-                                if (item.id === id && item.price < 999) {
-                                  return {
-                                    ...item,
-                                    price: +(+item.price + 0.01).toFixed(2),
-                                  };
-                                }
+                      <button
+                        className="pricePlus"
+                        onClick={() => {
+                          setItems([
+                            ...items.map((item) => {
+                              if (item.id === id && item.price < 1000) {
                                 return {
                                   ...item,
+                                  price: +(+item.price + 0.01).toFixed(2),
                                 };
-                              }),
-                            ]);
-                          }}
-                          children="+"
-                        />
-                      </div>
+                              }
+                              return {
+                                ...item,
+                              };
+                            }),
+                          ]);
+                        }}
+                        children="+"
+                      />
                     </div>
                   </div>
 
                   <div
                     style={{
                       width: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                       // background: "cyan",
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <div>Qtd</div>
+                    <div style={{}}>
                       <div>
                         <button
                           onClick={() => {
@@ -241,13 +271,16 @@ export default function Home() {
                           type={"number"}
                           min="0"
                           max="999"
+                          style={{
+                            width: "40px",
+                          }}
                         />
 
                         <button
                           onClick={() => {
                             setItems([
                               ...items.map((item) => {
-                                if (item.id === id && item.qty < 999) {
+                                if (item.id === id && item.qty < 1000) {
                                   return {
                                     ...item,
                                     qty: ++item.qty,
@@ -270,7 +303,7 @@ export default function Home() {
           })}
 
         {!loading && items?.length < 1 && (
-          <p style={{ padding: "16px" }}>Adicione produtos à sua lista.</p>
+          <p style={{ padding: "16px" }}>Adicione produtos à sua lista. 🙂</p>
         )}
       </WrapperItems>
     </Container>
@@ -286,28 +319,51 @@ const Container = styled.div`
 const WrapperItems = styled.div`
   width: 100%;
   height: 80vh;
-  margin-top: 8px;
+  /* margin-top: 8px; */
   overflow-y: auto;
 
   .product {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 8px 16px;
+    padding: 16px;
+    position: relative;
+
+    /* & + div {
+      border-top: 1px solid #1112;
+    } */
+    &:nth-child(odd) {
+      background: #5551;
+    }
 
     button {
-      padding: 0 8px;
+      padding: 0 12px;
+      border: 1px solid rebeccapurple;
+      background: transparent;
+      color: rebeccapurple;
+      font-weight: 500;
+      font-size: 16px;
+      box-shadow: 1px 1px 1px #0003;
+
+      &:active {
+        transform: scale(0.96);
+      }
     }
 
-    input {
+    input[type="number"] {
+      border: 1px solid transparent;
+
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      background: #a385c2;
       text-align: center;
-    }
-  }
 
-  .product:nth-child(odd) {
-    background: #0001;
-  }
-  .product:nth-child(even) {
-    background: #fff;
+      &::placeholder {
+        color: #ddd;
+        font-size: 14px;
+        font-style: oblique;
+      }
+    }
   }
 `;

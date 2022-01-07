@@ -37,17 +37,29 @@ export const CreateForm = ({ loading, fnCreateItem }) => {
         disabled={loading}
         placeholder="Nome do produto..."
       />
-
-      <button
-        type={"submit"}
-        children="Add"
-        disabled={loading}
-        style={{ padding: "0 16px" }}
-      />
     </StyledForm>
   );
 };
 
 const StyledForm = styled.form`
-  margin: 1rem;
+  margin-top: 6px;
+
+  input {
+    width: 100%;
+    border: 0;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    padding: 6px;
+    color: rebeccapurple;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 600;
+
+    &::placeholder {
+      color: #0005;
+      font-style: oblique;
+      font-size: 14px;
+      font-weight: normal;
+    }
+  }
 `;
