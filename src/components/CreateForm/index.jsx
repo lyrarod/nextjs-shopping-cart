@@ -36,24 +36,25 @@ export const CreateForm = ({ loading, fnCreateItem }) => {
         ref={inputRef}
         disabled={loading}
         placeholder="Nome do produto..."
+        maxLength={75}
       />
     </StyledForm>
   );
 };
 
 const StyledForm = styled.form`
-  margin-top: 6px;
+  width: 100%;
 
   input {
     width: 100%;
     border: 0;
-    background-color: whitesmoke;
-    border-radius: 10px;
-    padding: 6px;
-    color: rebeccapurple;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 4px 6px;
+    color: #050f0f;
     font-size: 16px;
     letter-spacing: 1px;
-    font-weight: 600;
+    font-weight: 500;
 
     &::placeholder {
       color: #0005;

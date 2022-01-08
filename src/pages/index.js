@@ -4,9 +4,9 @@ import { CreateForm } from "../components/CreateForm";
 import styled from "styled-components";
 
 const fakeItems = [
-  { id: 1, product: "10kg Arroz Parboilizado (maximo)", qty: 1, price: 0 },
-  { id: 2, product: "10kg Feijão Manteiga", qty: 1, price: 0 },
-  { id: 3, product: "4kg Batata Frita Congelada", qty: 1, price: 0 },
+  { id: 1, product: "Headset com microfone (Logitech)", qty: 1, price: 169.0 },
+  { id: 2, product: "Mouse silent (Logitech)", qty: 1, price: 49.9 },
+  { id: 3, product: "Teclado USB (Microsoft)", qty: 1, price: 149.9 },
 ];
 
 export default function Home() {
@@ -89,19 +89,36 @@ export default function Home() {
       {!loading && (
         <div
           style={{
+            position: "fixed",
             width: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
             padding: "16px",
-            background: "linear-gradient(to right,rebeccapurple,#339999 )",
-            boxShadow: "0 3px 3px #0003",
+            background: "linear-gradient(to right,#5CADAD,#297A7A )",
+            boxShadow: "0 2px 2px #0003",
+            zIndex: "999",
           }}
         >
-          {/* <p>🛒 {items?.length}</p> */}
-          <div>
-            <h2 style={{ color: "#fff" }}>R$ {amount()}</h2>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "0 4px",
+              color: "#fff",
+            }}
+          >
+            <h2 style={{}}>R$ {amount()}</h2>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ fontSize: "12px", fontWeight: "600" }}>
+                {items?.length}
+              </span>
+              <h2>🛒</h2>
+            </div>
           </div>
 
           <CreateForm fnCreateItem={createItem} loading={loading} />
@@ -116,29 +133,25 @@ export default function Home() {
 
             return (
               <div key={id} className="product">
-                <div
+                <button
+                  onClick={() => {
+                    setItems([...items.filter((item) => item.id !== id)]);
+                  }}
                   style={{
                     position: "absolute",
-                    top: "6px",
-                    right: "10px",
+                    top: "4px",
+                    right: "8px",
+                    padding: "0",
+                    border: "0",
+                    boxShadow: "none",
+                    color: "crimson",
+                    fontSize: "10px",
+                    fontWeight: "900",
+                    background: "none",
                   }}
                 >
-                  <button
-                    onClick={() => {
-                      setItems([...items.filter((item) => item.id !== id)]);
-                    }}
-                    style={{
-                      padding: "0",
-                      border: "0",
-                      boxShadow: "none",
-                      color: "crimson",
-                      fontSize: "14px",
-                      fontWeight: "700",
-                    }}
-                  >
-                    x
-                  </button>
-                </div>
+                  x
+                </button>
 
                 <div
                   style={{
@@ -146,14 +159,14 @@ export default function Home() {
                     fontSize: "16px",
                     fontWeight: "600",
                     letterSpacing: "1px",
-                    color: "rebeccapurple",
+                    color: "#050F0F",
                   }}
                 >
                   <span
                     style={{
                       fontSize: "12px",
-                      fontWeight: "500",
-                      color: "rebeccapurple",
+                      // fontWeight: "700",
+                      // color: "rebeccapurple",
                     }}
                   >
                     {i + 1}.{" "}
@@ -311,15 +324,17 @@ export default function Home() {
 }
 
 const Container = styled.div`
+  position: relative;
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
 `;
 
 const WrapperItems = styled.div`
+  position: relative;
   width: 100%;
   height: 80vh;
-  /* margin-top: 8px; */
+  margin-top: 100px;
   overflow-y: auto;
 
   .product {
@@ -329,18 +344,19 @@ const WrapperItems = styled.div`
     padding: 16px;
     position: relative;
 
-    /* & + div {
-      border-top: 1px solid #1112;
-    } */
-    &:nth-child(odd) {
-      background: #5551;
+    & + div {
+      border-top: 1px solid #0001;
     }
+
+    /* &:nth-child(even) {
+      background: #5551;
+    } */
 
     button {
       padding: 0 12px;
-      border: 1px solid rebeccapurple;
-      background: transparent;
-      color: rebeccapurple;
+      border: 1px solid transparent;
+      background: #5cadad;
+      color: #fff;
       font-weight: 500;
       font-size: 16px;
       box-shadow: 1px 1px 1px #0003;
@@ -351,18 +367,24 @@ const WrapperItems = styled.div`
     }
 
     input[type="number"] {
-      border: 1px solid transparent;
-
-      color: #fff;
+      color: #050f0f;
       font-size: 16px;
       font-weight: 500;
-      background: #a385c2;
+      background: transparent;
       text-align: center;
+      border: 1px solid #5cadad;
+      -moz-appearance: textfield;
 
       &::placeholder {
-        color: #ddd;
+        color: #0003;
         font-size: 14px;
         font-style: oblique;
+      }
+
+      ::-webkit-outer-spin-button,
+      ::-webkit-inner-spin-button {
+        margin: 0;
+        -webkit-appearance: none;
       }
     }
   }
