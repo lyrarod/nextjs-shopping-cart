@@ -49,7 +49,7 @@ const StyledForm = styled.form`
     width: 100%;
     border: 0;
     background-color: #fff;
-    border-radius: 4px;
+    border-radius: 20px;
     padding: 4px 6px;
     color: #050f0f;
     font-size: 16px;

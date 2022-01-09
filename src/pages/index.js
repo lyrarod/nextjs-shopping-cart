@@ -9,9 +9,14 @@ const fakeItems = [
   { id: 3, product: "Teclado USB (Microsoft)", qty: 1, price: 149.9 },
 ];
 
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export default function Home() {
   const [items, setItems] = useState();
   const [loading, setLoading] = useState(true);
+  const getRndLoading = getRndInteger(1000, 2000);
 
   useEffect(() => {
     const getItemsLocalStorage = () => {
@@ -24,7 +29,7 @@ export default function Home() {
 
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, getRndLoading);
 
     return () => clearTimeout(timer);
   }, []);
@@ -81,9 +86,17 @@ export default function Home() {
       </Head>
 
       {loading && (
-        <h2 style={{ padding: "0 1rem" }}>
-          <em>Aguarde...</em>
-        </h2>
+        <div
+          style={{
+            width: "100%",
+            height: "100vh",
+            display: "grid",
+            placeItems: "center",
+            background: "#fff",
+          }}
+        >
+          <img src="./assets/loading.gif" alt="" />
+        </div>
       )}
 
       {!loading && (
@@ -98,6 +111,8 @@ export default function Home() {
             padding: "16px",
             background: "linear-gradient(to right,#5CADAD,#297A7A )",
             boxShadow: "0 2px 2px #0003",
+            borderBottomLeftRadius: "24px",
+            borderBottomRightRadius: "24px",
             zIndex: "999",
           }}
         >
@@ -114,7 +129,7 @@ export default function Home() {
             <h2 style={{}}>R$ {amount()}</h2>
 
             <div style={{ display: "flex", alignItems: "center" }}>
-              <span style={{ fontSize: "12px", fontWeight: "600" }}>
+              <span style={{ fontSize: "14px", fontWeight: "600" }}>
                 {items?.length}
               </span>
               <h2>🛒</h2>
@@ -220,7 +235,7 @@ export default function Home() {
                         type={"number"}
                         min="0"
                         max="999"
-                        placeholder="R$0,00"
+                        placeholder="R$"
                         style={{
                           width: "70px",
                         }}
