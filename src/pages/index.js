@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import { CreateForm } from "../components/CreateForm";
 import styled from "styled-components";
+import { Header } from "../components/Header";
+import { Loader } from "../components/Loader";
 
 const fakeItems = [
   { id: 1, product: "Headset com microfone (Logitech)", qty: 1, price: 169.0 },
@@ -74,70 +75,16 @@ export default function Home() {
     ]);
   };
 
-  const amount = () => {
-    let total = items.reduce((acc, curr) => acc + curr.qty * curr.price, 0);
-    return total.toFixed(2);
-  };
-
   return (
     <Container>
       <Head>
         <title>Shopping Cart List</title>
       </Head>
 
-      {loading && (
-        <div
-          style={{
-            width: "100%",
-            height: "100vh",
-            display: "grid",
-            placeItems: "center",
-            background: "#fff",
-          }}
-        >
-          <img src="./assets/loading.gif" alt="" />
-        </div>
-      )}
+      {loading && <Loader />}
 
       {!loading && (
-        <div
-          style={{
-            position: "fixed",
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            padding: "16px",
-            background: "linear-gradient(to right,#5CADAD,#297A7A )",
-            boxShadow: "0 2px 2px #0003",
-            borderBottomLeftRadius: "24px",
-            borderBottomRightRadius: "24px",
-            zIndex: "999",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "0 4px",
-              color: "#fff",
-            }}
-          >
-            <h2 style={{}}>R$ {amount()}</h2>
-
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <span style={{ fontSize: "14px", fontWeight: "600" }}>
-                {items?.length}
-              </span>
-              <h2>🛒</h2>
-            </div>
-          </div>
-
-          <CreateForm fnCreateItem={createItem} loading={loading} />
-        </div>
+        <Header items={items} loading={loading} fnCreateItem={createItem} />
       )}
 
       <WrapperItems>
@@ -164,28 +111,19 @@ export default function Home() {
                     fontWeight: "900",
                     background: "none",
                   }}
-                >
-                  x
-                </button>
+                  children="x"
+                />
 
                 <div
                   style={{
-                    overflowX: "auto",
                     fontSize: "16px",
-                    fontWeight: "600",
+                    fontWeight: "500",
                     letterSpacing: "1px",
                     color: "#050F0F",
+                    textAlign: "center",
+                    overflowX: "scroll",
                   }}
                 >
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      // fontWeight: "700",
-                      // color: "rebeccapurple",
-                    }}
-                  >
-                    {i + 1}.{" "}
-                  </span>
                   {product}
                 </div>
                 <div
@@ -210,7 +148,6 @@ export default function Home() {
                       }}
                     >
                       <button
-                        className="priceMinus"
                         onClick={() => {
                           setItems([
                             ...items.map((item) => {
@@ -242,7 +179,6 @@ export default function Home() {
                       />
 
                       <button
-                        className="pricePlus"
                         onClick={() => {
                           setItems([
                             ...items.map((item) => {
@@ -269,7 +205,6 @@ export default function Home() {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      // background: "cyan",
                     }}
                   >
                     <div style={{}}>
@@ -359,13 +294,13 @@ const WrapperItems = styled.div`
     padding: 16px;
     position: relative;
 
-    & + div {
+    /* & + div {
       border-top: 1px solid #0001;
-    }
-
-    /* &:nth-child(even) {
-      background: #5551;
     } */
+
+    &:nth-child(even) {
+      background: #5551;
+    }
 
     button {
       padding: 0 12px;
@@ -384,7 +319,6 @@ const WrapperItems = styled.div`
     input[type="number"] {
       color: #050f0f;
       font-size: 16px;
-      font-weight: 500;
       background: transparent;
       text-align: center;
       border: 1px solid #5cadad;
@@ -393,13 +327,12 @@ const WrapperItems = styled.div`
       &::placeholder {
         color: #0003;
         font-size: 14px;
-        font-style: oblique;
       }
 
       ::-webkit-outer-spin-button,
       ::-webkit-inner-spin-button {
-        margin: 0;
         -webkit-appearance: none;
+        margin: 0;
       }
     }
   }
