@@ -10,7 +10,7 @@ export const Loader = () => {
           background: "#fff",
         }}
       >
-        <img src="./assets/loading.gif" alt="" style={{ maxWidth: "100%" }} />
+        <img src="/assets/loading.gif" alt="" style={{ maxWidth: "100%" }} />
       </div>
     </div>
   );

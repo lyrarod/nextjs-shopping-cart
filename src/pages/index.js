@@ -3,6 +3,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import { Header } from "../components/Header";
 import { Loader } from "../components/Loader";
+import { RiDeleteBin2Fill } from "react-icons/ri";
 
 const fakeItems = [
   { id: 1, product: "Headset com microfone (Logitech)", qty: 1, price: 169.0 },
@@ -78,7 +79,7 @@ export default function Home() {
   return (
     <Container>
       <Head>
-        <title>Shopping Cart List</title>
+        <title>Chappo Cart</title>
       </Head>
 
       {loading && <Loader />}
@@ -95,171 +96,160 @@ export default function Home() {
 
             return (
               <div key={id} className="product">
-                <button
-                  onClick={() => {
-                    setItems([...items.filter((item) => item.id !== id)]);
-                  }}
-                  style={{
-                    position: "absolute",
-                    top: "4px",
-                    right: "8px",
-                    padding: "0",
-                    border: "0",
-                    boxShadow: "none",
-                    color: "crimson",
-                    fontSize: "10px",
-                    fontWeight: "900",
-                    background: "none",
-                  }}
-                  children="x"
-                />
-
-                <div
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: "500",
-                    letterSpacing: "1px",
-                    color: "#050F0F",
-                    textAlign: "center",
-                    overflowX: "scroll",
-                  }}
-                >
-                  {product}
+                <div style={{ display: "flex", alignItems: "baseline" }}>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      color: "#297A7A",
+                    }}
+                  >
+                    {i + 1}.
+                  </span>
+                  &nbsp;
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      letterSpacing: ".5px",
+                      color: "#297A7A",
+                      overflowX: "scroll",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {product}
+                  </div>
                 </div>
                 <div
                   style={{
                     display: "flex",
-                    marginTop: "4px",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  <div
-                    style={{
-                      width: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                  <div>
+                    <button
+                      onClick={() => {
+                        setItems([
+                          ...items.map((item) => {
+                            if (item.id === id && item.price > 0) {
+                              return {
+                                ...item,
+                                price: +(+item.price - 0.01).toFixed(2),
+                              };
+                            }
+                            return {
+                              ...item,
+                            };
+                          }),
+                        ]);
                       }}
-                    >
-                      <button
-                        onClick={() => {
-                          setItems([
-                            ...items.map((item) => {
-                              if (item.id === id && item.price > 0) {
-                                return {
-                                  ...item,
-                                  price: +(+item.price - 0.01).toFixed(2),
-                                };
-                              }
+                      children="-"
+                    />
+
+                    <input
+                      value={price ? price : ""}
+                      onChange={(e) => handleOnChangePrice(e, id)}
+                      type={"number"}
+                      min="0"
+                      max="999"
+                      placeholder="R$"
+                      style={{
+                        width: "60px",
+                      }}
+                    />
+
+                    <button
+                      onClick={() => {
+                        setItems([
+                          ...items.map((item) => {
+                            if (item.id === id && item.price < 1000) {
                               return {
                                 ...item,
+                                price: +(+item.price + 0.01).toFixed(2),
                               };
-                            }),
-                          ]);
-                        }}
-                        children="-"
-                      />
-
-                      <input
-                        value={price ? price : ""}
-                        onChange={(e) => handleOnChangePrice(e, id)}
-                        type={"number"}
-                        min="0"
-                        max="999"
-                        placeholder="R$"
-                        style={{
-                          width: "70px",
-                        }}
-                      />
-
-                      <button
-                        onClick={() => {
-                          setItems([
-                            ...items.map((item) => {
-                              if (item.id === id && item.price < 1000) {
-                                return {
-                                  ...item,
-                                  price: +(+item.price + 0.01).toFixed(2),
-                                };
-                              }
-                              return {
-                                ...item,
-                              };
-                            }),
-                          ]);
-                        }}
-                        children="+"
-                      />
-                    </div>
+                            }
+                            return {
+                              ...item,
+                            };
+                          }),
+                        ]);
+                      }}
+                      children="+"
+                    />
                   </div>
 
-                  <div
-                    style={{
-                      width: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                  <div>
+                    <button
+                      onClick={() => {
+                        setItems([
+                          ...items.map((item) => {
+                            if (item.id === id && item.qty > 0) {
+                              return {
+                                ...item,
+                                qty: --item.qty,
+                              };
+                            }
+                            return {
+                              ...item,
+                            };
+                          }),
+                        ]);
+                      }}
+                      children="-"
+                    />
+
+                    <input
+                      value={qty}
+                      onChange={(e) => handleOnChangeQtd(e, id)}
+                      type={"number"}
+                      min="0"
+                      max="999"
+                      style={{
+                        width: "60px",
+                      }}
+                    />
+
+                    <button
+                      onClick={() => {
+                        setItems([
+                          ...items.map((item) => {
+                            if (item.id === id && item.qty < 1000) {
+                              return {
+                                ...item,
+                                qty: ++item.qty,
+                              };
+                            }
+                            return {
+                              ...item,
+                            };
+                          }),
+                        ]);
+                      }}
+                      children="+"
+                    />
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      if (
+                        !confirm(
+                          `❌Deseja remover o produto abaixo?\nProduto:  ${product}.`
+                        )
+                      )
+                        return;
+
+                      setItems([...items.filter((item) => item.id !== id)]);
                     }}
-                  >
-                    <div style={{}}>
-                      <div>
-                        <button
-                          onClick={() => {
-                            setItems([
-                              ...items.map((item) => {
-                                if (item.id === id && item.qty > 0) {
-                                  return {
-                                    ...item,
-                                    qty: --item.qty,
-                                  };
-                                }
-                                return {
-                                  ...item,
-                                };
-                              }),
-                            ]);
-                          }}
-                          children="-"
-                        />
-
-                        <input
-                          value={qty}
-                          onChange={(e) => handleOnChangeQtd(e, id)}
-                          type={"number"}
-                          min="0"
-                          max="999"
-                          style={{
-                            width: "40px",
-                          }}
-                        />
-
-                        <button
-                          onClick={() => {
-                            setItems([
-                              ...items.map((item) => {
-                                if (item.id === id && item.qty < 1000) {
-                                  return {
-                                    ...item,
-                                    qty: ++item.qty,
-                                  };
-                                }
-                                return {
-                                  ...item,
-                                };
-                              }),
-                            ]);
-                          }}
-                          children="+"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    style={{
+                      display: "grid",
+                      placeItems: "center",
+                      padding: "0",
+                      color: "crimson",
+                      border: "none",
+                      background: "none",
+                    }}
+                    children={<RiDeleteBin2Fill size={"16px"} />}
+                  />
                 </div>
               </div>
             );
@@ -284,7 +274,7 @@ const WrapperItems = styled.div`
   position: relative;
   width: 100%;
   height: 80vh;
-  margin-top: 100px;
+  margin-top: 96px;
   overflow-y: auto;
 
   .product {
@@ -307,9 +297,9 @@ const WrapperItems = styled.div`
       border: 1px solid transparent;
       background: #5cadad;
       color: #fff;
-      font-weight: 500;
-      font-size: 16px;
-      box-shadow: 1px 1px 1px #0003;
+      font-weight: 600;
+      font-size: 14px;
+      /* box-shadow: 1px 1px 1px #0003; */
 
       &:active {
         transform: scale(0.96);
@@ -317,8 +307,8 @@ const WrapperItems = styled.div`
     }
 
     input[type="number"] {
-      color: #050f0f;
-      font-size: 16px;
+      color: #5cadad;
+      font-size: 14px;
       background: transparent;
       text-align: center;
       border: 1px solid #5cadad;
@@ -326,7 +316,7 @@ const WrapperItems = styled.div`
 
       &::placeholder {
         color: #0003;
-        font-size: 14px;
+        /* font-size: 14px; */
       }
 
       ::-webkit-outer-spin-button,

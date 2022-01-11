@@ -24,8 +24,6 @@ export const CreateForm = ({ loading, fnCreateItem }) => {
     fnCreateItem(newItem);
     setValue("");
     inputRef.current.focus();
-
-    // console.log("Create Item:", newItem);
   };
 
   return (
@@ -37,6 +35,7 @@ export const CreateForm = ({ loading, fnCreateItem }) => {
         disabled={loading}
         placeholder="Nome do produto..."
         maxLength={75}
+        autoFocus
       />
     </StyledForm>
   );
@@ -49,11 +48,11 @@ const StyledForm = styled.form`
     width: 100%;
     border: 0;
     background-color: #fff;
-    border-radius: 20px;
+    border-radius: 2px;
     padding: 4px 6px;
-    color: #050f0f;
-    font-size: 16px;
-    letter-spacing: 1px;
+    color: #297a7a;
+    font-size: 14px;
+    letter-spacing: 0.5px;
     font-weight: 500;
 
     &::placeholder {
