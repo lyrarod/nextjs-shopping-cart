@@ -5,25 +5,19 @@ import { Header } from "../components/Header";
 import { Loader } from "../components/Loader";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 
-const fakeItems = [
-  { id: 1, product: "Headset com microfone (Logitech)", qty: 1, price: 169.0 },
-  { id: 2, product: "Mouse silent (Logitech)", qty: 1, price: 49.9 },
-  { id: 3, product: "Teclado USB (Microsoft)", qty: 1, price: 149.9 },
-];
-
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 export default function Home() {
-  const [items, setItems] = useState();
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const getRndLoading = getRndInteger(1000, 2000);
 
   useEffect(() => {
     const getItemsLocalStorage = () => {
       const data = localStorage.getItem("Items");
-      return data ? JSON.parse(data) : fakeItems;
+      return data ? JSON.parse(data) : [];
     };
 
     const data = getItemsLocalStorage();
@@ -148,7 +142,10 @@ export default function Home() {
 
                     <input
                       value={price ? price : ""}
-                      onChange={(e) => handleOnChangePrice(e, id)}
+                      onChange={(e) => {
+                        if (e.target.value.length > 6) return;
+                        handleOnChangePrice(e, id);
+                      }}
                       type={"number"}
                       min="0"
                       max="999"
@@ -233,7 +230,7 @@ export default function Home() {
                     onClick={() => {
                       if (
                         !confirm(
-                          `❌Deseja remover o produto abaixo?\nProduto:  ${product}.`
+                          `Deseja remover o produto abaixo? ❌\n${product}`
                         )
                       )
                         return;
@@ -256,7 +253,25 @@ export default function Home() {
           })}
 
         {!loading && items?.length < 1 && (
-          <p style={{ padding: "16px" }}>Adicione produtos à sua lista. 🙂</p>
+          <p
+            style={{
+              // padding: "16px",
+              color: "#5CADAD",
+              textAlign: "center",
+              fontSize: "14px",
+              fontWeight: "500",
+            }}
+          >
+            <span
+              style={{
+                textAlign: "center",
+                fontSize: "24px",
+              }}
+            ></span>
+            <br />
+            Ops... sua lista está vazia ! <br />
+            Adicione produtos à sua lista.
+          </p>
         )}
       </WrapperItems>
     </Container>
