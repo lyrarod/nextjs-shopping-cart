@@ -1,5 +1,5 @@
 import { CreateForm } from "../CreateForm";
-import { RiShoppingCart2Fill } from "react-icons/ri";
+import { GiShoppingCart } from "react-icons/gi";
 
 export const Header = ({ items, loading, fnCreateItem }) => {
   const amount = () => {
@@ -19,8 +19,6 @@ export const Header = ({ items, loading, fnCreateItem }) => {
         padding: "16px",
         background: "linear-gradient(to right,#5CADAD,#297A7A )",
         boxShadow: "0 2px 2px #0003",
-        // borderBottomLeftRadius: "50%",
-        // borderBottomRightRadius: "50%",
         zIndex: "999",
       }}
     >
@@ -34,14 +32,13 @@ export const Header = ({ items, loading, fnCreateItem }) => {
           color: "#fff",
         }}
       >
-        <h2 style={{}}>R$ {amount()}</h2>
+        <h2>R$ {amount()}</h2>
 
         <div style={{ display: "flex", alignItems: "center" }}>
           <span style={{ fontSize: "12px", fontWeight: "500" }}>
             {items?.length}
           </span>
-
-          <RiShoppingCart2Fill size={"32px"} color="#fff" />
+          <GiShoppingCart size={"32px"} color="#fff" />
         </div>
       </div>
 

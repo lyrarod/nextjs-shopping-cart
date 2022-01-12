@@ -3,7 +3,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import { Header } from "../components/Header";
 import { Loader } from "../components/Loader";
-import { RiDeleteBin2Fill } from "react-icons/ri";
+import { MdRemoveShoppingCart } from "react-icons/md";
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -104,10 +104,9 @@ export default function Home() {
                     style={{
                       fontSize: "14px",
                       fontWeight: "500",
-                      letterSpacing: ".5px",
                       color: "#297A7A",
-                      overflowX: "scroll",
-                      marginBottom: "8px",
+                      marginBottom: "4px",
+                      overflowX: "auto",
                     }}
                   >
                     {product}
@@ -230,7 +229,7 @@ export default function Home() {
                     onClick={() => {
                       if (
                         !confirm(
-                          `Deseja remover o produto abaixo? ❌\n${product}`
+                          `Deseja remover este produto da lista? ⚠\n${product}`
                         )
                       )
                         return;
@@ -241,11 +240,11 @@ export default function Home() {
                       display: "grid",
                       placeItems: "center",
                       padding: "0",
-                      color: "crimson",
+                      color: "#5CADAD",
                       border: "none",
                       background: "none",
                     }}
-                    children={<RiDeleteBin2Fill size={"16px"} />}
+                    children={<MdRemoveShoppingCart size={"22px"} />}
                   />
                 </div>
               </div>
@@ -255,19 +254,12 @@ export default function Home() {
         {!loading && items?.length < 1 && (
           <p
             style={{
-              // padding: "16px",
               color: "#5CADAD",
               textAlign: "center",
               fontSize: "14px",
               fontWeight: "500",
             }}
           >
-            <span
-              style={{
-                textAlign: "center",
-                fontSize: "24px",
-              }}
-            ></span>
             <br />
             Ops... sua lista está vazia ! <br />
             Adicione produtos à sua lista.
@@ -299,13 +291,13 @@ const WrapperItems = styled.div`
     padding: 16px;
     position: relative;
 
-    /* & + div {
+    & + div {
       border-top: 1px solid #0001;
-    } */
-
-    &:nth-child(even) {
-      background: #5551;
     }
+
+    /* &:nth-child(even) {
+      background: #5551;
+    } */
 
     button {
       padding: 0 12px;
