@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <Container>
       <Head>
-        <title>Chappo Cart</title>
+        <title>nextjs-shopping-cart</title>
       </Head>
 
       {loading && <Loader />}
